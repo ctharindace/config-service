@@ -1,15 +1,32 @@
-spring.application.name=applicant-service
-spring.datasource.url=jdbc:postgresql://localhost:5432/application_service
-spring.datasource.username=applicant_user
-spring.datasource.password=1s@secret
-spring.jpa.properties.hibernate.default_schema=applicant_service
-
-spring.jpa.hibernate.ddl-auto=create
-spring.jpa.show-sql=true
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
-spring.jpa.properties.hibernate.format_sql=true
-
-spring.cloud.config.enabled=true
-
-server.port=8380
-eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka
+eureka:
+    client:
+        serviceUrl:
+            defaultZone: http://localhost:8761/eureka
+server:
+    port: 8380
+spring:
+    application:
+        name: applicant-service
+    cloud:
+        config:
+            enabled: false
+    datasource:
+        password: 1s@secret
+        url: jdbc:postgresql://localhost:5432/application_service
+        username: applicant_user
+    jpa:
+        hibernate:
+            ddl-auto: create
+        properties:
+            hibernate:
+                default_schema: applicant_service
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+                format_sql: true
+        show-sql: true
+management:
+    tracing:
+        sampling:
+            probability: 1.0
+logging:
+    pattern:
+        level: "[%5p [${spring.application.name}-#-%X{traceId:-}-#-%X{spanId:-}]]"
